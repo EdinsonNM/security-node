@@ -11,7 +11,10 @@ app.use(bodyParser.json());
 app.use(cors());
 Routes(app);
 
-app.listen(process.env.PORT, () => {
+const PORT = process.env.PORT || 8080;
+const HOST = '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
 	console.info(`listening in port ${process.env.PORT}`);
 })
 

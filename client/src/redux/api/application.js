@@ -1,5 +1,5 @@
 import HeaderRequest from '../../lib/header-request';
-const SERVER_URL = 'http://localhost:8080/api'
+const SERVER_URL = 'api'
 class ApplicationApi{
 	constructor(action$, store, deps) {
         this.action$ = action$;
