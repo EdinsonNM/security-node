@@ -17,10 +17,12 @@ services:
       - USERNAME=USERNAME
       - PASSWORD=123
       - PORT=8080
-      - MONGO_HOST=localhost
+      - MONGO_HOST=mongo
       - MONGO_DB=security-node
       - SECURITY_TOKEN=MIICXQIBAAKBgQDrL8+6kIo7CuZHV2ZEjxhO6LLvB7183jS/k3EhU2UyVvkMjfti
     depends_on:
+      - "mongo"
+    links:
       - "mongo"
   client:
     build:
@@ -33,6 +35,8 @@ services:
       - server
     ports:
       - "3000:3000"
+    environment:
+      - SERVER_URL=http://localhost:8080
   mongo:
       container_name: mongo
       image: mongo

@@ -2,20 +2,20 @@ const { Application, Token, Connection } = require('../models');
 const jwt = require("jsonwebtoken");
 class ApplicationController{
 	static get(req, res){
-		Model.findById(req.params.id)
+		Application.findById(req.params.id)
 		.then((response)=> {
 			res.json(response);
 		})
 	}
 	static getAll(req, res){
-		Model.find({})
+		Application.find({})
 		.then((response)=> {
 			res.json(response);
 		});
 	}
 	static post(req, res){
 		console.dir(req.body);
-		const app = new Model(req.body);
+		const app = new Application(req.body);
 		app.save((error, data) => {
 			if(error){
 				return res.status(500).json(error);
