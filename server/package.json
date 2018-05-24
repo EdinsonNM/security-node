@@ -1,0 +1,33 @@
+{
+  "name": "security-node",
+  "version": "1.0.0",
+  "description": "Api para la distribución de cadenas de conexion",
+  "main": "index.js",
+  "author": "Edinson Nuñez More",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.0",
+    "mongoose": "^5.0.11",
+    "uuid": "^3.2.1"
+  },
+  "scripts": {
+    "start": "babel-node src/index.js",
+    "start:dev": "nodemon src/index.js --exec babel-node"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "nodemon": "^1.17.3"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
+    ]
+  }
+}

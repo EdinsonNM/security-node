@@ -1,0 +1,7 @@
+export const STATUS_SERVICE = {
+	INITIAL: 0,
+	INPROGRESS: 1,
+	SUCCESS: 2,
+	ERROR: 4
+
+}
