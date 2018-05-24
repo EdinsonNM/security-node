@@ -38,7 +38,8 @@ class ConnectionEpic{
 					status: error.status
 				})));
 			return Observable.concat(
-				request
+				request,
+				Observable.of(ConnectionAction.load(payload._app))
 			);
 		});
 }
