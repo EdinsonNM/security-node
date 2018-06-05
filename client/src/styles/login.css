@@ -1,5 +1,6 @@
 .Login{
     height: 100%;
+    display: flex;
 	background-color: #623262;
     background: -moz-linear-gradient(top,  #623262 0%, #313162 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  #623262 0%,#313162 100%); /* Chrome10-25,Safari5.1-6 */
@@ -7,5 +8,6 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#623262', endColorstr='#313162',GradientType=0 ); /* IE6-9 */
 }
 .Login-body{
-
+    width: 400px;
+    margin: auto;
 }

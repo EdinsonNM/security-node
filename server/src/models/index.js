@@ -30,6 +30,14 @@ module.exports.UserLog = MongoDB.createModel('UserLog','userlogs', {
 	_app: {type: Schema.Types.ObjectId, ref: 'Application'},
 	_token:{type: Schema.Types.ObjectId, ref: 'Token'},
 	user: 'string',
-	lastSession: 'date',
+	createdAt: Date,
+	updatedAt: Date
 
+});
+
+module.exports.User = MongoDB.createModelUser('User','users', {
+	username: String,
+	password: String,
+	createdAt: Date,
+	updatedAt: Date
 });

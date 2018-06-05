@@ -1,9 +1,14 @@
 const Application = require( './application');
 const Connection = require( './connection');
+const User = require( './user');
 const Token = require( './token');
+const Router = require ("express").Router;
 
-module.exports =  function (app) {
-	app.use('/api/applications', Application);
-	app.use('/api/connections', Connection);
-	app.use('/api/token', Token);
+module.exports =  function () {
+	const router = new Router();
+	router.use('/applications', Application);
+	router.use('/connections', Connection);
+	router.use('/token', Token);
+	router.use('/user', User);
+	return router
 }

@@ -3,13 +3,21 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config()
 const app = express();
-
+const path = require('path');
 const Routes = require('./routes');
 const MongoDB = require('./lib/MongoDB');
 
+const CLIENT_BUILD_PATH = path.join(__dirname, '../../client/build');
+console.log('===============>',CLIENT_BUILD_PATH);
 app.use(bodyParser.json());
 app.use(cors());
-Routes(app);
+app.use(express.static(CLIENT_BUILD_PATH));
+
+app.use('/api', Routes());
+
+app.get('/', function(request, response) {
+	response.sendFile(path.join(CLIENT_BUILD_PATH, 'index.html'));
+});
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
