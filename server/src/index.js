@@ -6,9 +6,10 @@ const app = express();
 const path = require('path');
 const Routes = require('./routes');
 const MongoDB = require('./lib/MongoDB');
+require('./lib/passport');
 
 const CLIENT_BUILD_PATH = path.join(__dirname, '../../client/build');
-console.log('===============>',CLIENT_BUILD_PATH);
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(CLIENT_BUILD_PATH));

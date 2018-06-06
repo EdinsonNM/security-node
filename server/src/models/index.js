@@ -37,7 +37,10 @@ module.exports.UserLog = MongoDB.createModel('UserLog','userlogs', {
 
 module.exports.User = MongoDB.createModelUser('User','users', {
 	username: String,
-	password: String,
+	password:  {
+		type: String,
+		required: true,
+	},
 	createdAt: Date,
 	updatedAt: Date
 });
