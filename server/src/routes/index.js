@@ -1,3 +1,4 @@
+const UserLog = require('./userlog');
 const Application = require( './application');
 const Connection = require( './connection');
 const User = require( './user');
@@ -11,5 +12,6 @@ module.exports =  function () {
 	router.use('/connections', passport.authenticate('jwt', {session: false}), Connection);
 	router.use('/token', passport.authenticate('jwt', {session: false}), Token);
 	router.use('/user', User);
+	router.use('/userlog', UserLog);
 	return router
 }
