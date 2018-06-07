@@ -36,7 +36,7 @@ class ApplicationController{
 				if(!resultToken) return res.send(401);
 				cnn.then((resultCnn) => {
 					if(!resultCnn) return res.send(404);
-					const t = Buffer.from(JSON.stringify({cnn:Utils.getConnection(cnn)})).toString('base64');
+					const t = Buffer.from(JSON.stringify({cnn:Utils.getConnection(resultCnn)})).toString('base64');
 					res.send(t)
 		
 				})
