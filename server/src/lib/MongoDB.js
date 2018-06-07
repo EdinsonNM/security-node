@@ -52,22 +52,24 @@ class MongoDB {
             });
         };
         return  mongoose.model(modelName, schema, modelPluralName);
-	}
+    }
+    static connect() {
+        var options = { server: { socketOptions: { keepAlive: 1 } } };
+        db = mongoose.connect(`mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DB}`);
+        db.then(
+            () =>{
+                console.log('connection mongodb ...', `mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DB}`);
+            },
+            (err) => {
+                console.log(`connection mongodb error ... mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DB}`);
+        });
+    };
 	static start(){
-        const connect = function connect() {
-            var options = { server: { socketOptions: { keepAlive: 1 } } };
-            db = mongoose.connect(`mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DB}`);
-            db.then(
-                () =>{
-                    console.log('connection mongodb ...', `mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DB}`);
-                },
-                (err) => {
-                    console.log(`connection mongodb error ... mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DB}`);
-            });
-        };
-        connect();
+        
+        //connect();
         mongoose.connection.on('error', console.log);
-        mongoose.connection.on('disconnected', connect);
+        //mongoose.connection.on('disconnected', MongoDB.connect);
+        MongoDB.connect()
 	}
 }
 

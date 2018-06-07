@@ -3,6 +3,7 @@ import UserAction from '../actions/user'
 import UserApi from '../api/user'
 import { Observable } from 'rxjs';
 import AuthToken from '../../lib/auth-token';
+import 'rxjs/add/operator/mergeMap'
 
 class UserEpic{
 	static login = (action$, store, deps) => action$
@@ -12,6 +13,23 @@ class UserEpic{
 			const request = api.login(payload)
 				.map(response =>UserAction.loginOk(response.response.token))
 				.catch(error => Observable.of(UserAction.loginError({
+					message: error.message,
+					status: error.status
+				})));
+			return Observable.concat(
+				request
+			);
+		});
+	static logout = (action$, store, deps) => action$
+		.ofType(USER_ACTIONS.LOGOUT)
+		.switchMap(({ payload }) => {
+			const api = new UserApi(action$, store, deps);
+			const request = api.logout()
+				.mergeMap(response => Observable.concat(
+					Observable.of(UserAction.logoutOk(response.response.token)),
+					Observable.of(UserAction.me())
+				))
+				.catch(error => Observable.of(UserAction.logoutError({
 					message: error.message,
 					status: error.status
 				})));
@@ -40,5 +58,6 @@ export default function UserEpics (action$, store, deps){
 	return Observable.merge(
 		UserEpic.login(action$, store, deps),
 		UserEpic.me(action$, store, deps),
+		UserEpic.logout(action$, store, deps),
 	);
 } 

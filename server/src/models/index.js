@@ -2,13 +2,13 @@ const MongoDB = require('../lib/MongoDB');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-module.exports.Application = MongoDB.createModel('Application','applications', {
+const Application = MongoDB.createModel('Application','applications', {
 	name: String,
 	createdAt: Date,
 	updatedAt: Date
 })
 
-module.exports.Connection = MongoDB.createModel('Connection','connections', {
+const Connection = MongoDB.createModel('Connection','connections', {
 	_app:  {type: Schema.Types.ObjectId, ref: 'Application'},
 	server: String,
 	user: String,
@@ -18,7 +18,7 @@ module.exports.Connection = MongoDB.createModel('Connection','connections', {
 	createdAt: Date,
 	updatedAt: Date
 })
-module.exports.Token = MongoDB.createModel('Token','tokens', {
+const Token = MongoDB.createModel('Token','tokens', {
 	_app:  {type: Schema.Types.ObjectId, ref: 'Application'},
 	token: 'string',
 	active: {type: Boolean, default: true},
@@ -26,7 +26,7 @@ module.exports.Token = MongoDB.createModel('Token','tokens', {
 	updatedAt: Date
 
 })
-module.exports.UserLog = MongoDB.createModel('UserLog','userlogs', {
+const UserLog = MongoDB.createModel('UserLog','userlogs', {
 	_app: {type: Schema.Types.ObjectId, ref: 'Application'},
 	_token:{type: Schema.Types.ObjectId, ref: 'Token'},
 	user: 'string',
@@ -35,7 +35,7 @@ module.exports.UserLog = MongoDB.createModel('UserLog','userlogs', {
 
 });
 
-module.exports.User = MongoDB.createModelUser('User','users', {
+const User = MongoDB.createModelUser('User','users', {
 	username: String,
 	password:  {
 		type: String,
@@ -44,3 +44,11 @@ module.exports.User = MongoDB.createModelUser('User','users', {
 	createdAt: Date,
 	updatedAt: Date
 });
+
+module.exports = {
+	Application,
+	Connection,
+	Token,
+	UserLog,
+	User
+}

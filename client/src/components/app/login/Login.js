@@ -23,7 +23,7 @@ class LoginForm extends Component{
 		this.props.login(this.state.username, this.state.password);
 	}
 	render(){
-		if(this.props.statusService === STATUS_SERVICE.SUCCESS){
+		if(this.props.status === STATUS_SERVICE.SUCCESS){
 			this.props.loginReset();
 			return <Redirect push to={{pathname: '/dashboard'}}/>;
 		}
@@ -65,7 +65,7 @@ class LoginForm extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => ({
-	statusService: state.UserReducer.statusService
+	status: state.UserReducer.statusLoginService
 })
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	login: UserAction.login,

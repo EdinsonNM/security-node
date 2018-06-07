@@ -7,7 +7,7 @@ const passport    = require('passport');
 
 module.exports =  function () {
 	const router = new Router();
-	router.use('/applications', passport.authenticate('jwt', {session: false}), Application);
+	router.use('/applications', Application);
 	router.use('/connections', passport.authenticate('jwt', {session: false}), Connection);
 	router.use('/token', passport.authenticate('jwt', {session: false}), Token);
 	router.use('/user', User);

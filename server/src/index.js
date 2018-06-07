@@ -7,6 +7,7 @@ const path = require('path');
 const Routes = require('./routes');
 const MongoDB = require('./lib/MongoDB');
 require('./lib/passport');
+const mongoose = require('mongoose');
 
 const CLIENT_BUILD_PATH = path.join(__dirname, '../../client/build');
 

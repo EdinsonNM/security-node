@@ -6,7 +6,6 @@ class ConnectionApi{
         this.store = store;
         this.deps = deps;
     }
-
     getAll = (payload) => this.deps.ajax
     	.getJSON(`${SERVER_URL}/connections/application/${payload.app}`, HeaderRequest.getRequestHeader())
     

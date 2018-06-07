@@ -41,7 +41,7 @@ class Dashboard extends Component {
 		}
 		return (
 			<div className="Dashboard">
-			<HeaderApp />
+			<HeaderApp {...this.props} />
 			<div className="Dashboard-container">
 				<Applications applicationSelected={this.state.applicationSelected} handleApplicationSelect={this.handleApplicationSelect}/>
 				<div className="Dashboard-detail">
@@ -62,6 +62,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	me: UserAction.me,
+	logout: UserAction.logout,
 	meReset: UserAction.meReset
 }, dispatch)
 

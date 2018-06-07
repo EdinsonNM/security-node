@@ -12,6 +12,7 @@ const ApplicationsBody = ({data = [], selected, handleSelect}) => (
 		<TableHead>
 			<TableRow>
 				<TableCell>F.CREACIÓN</TableCell>
+				<TableCell>ID</TableCell>
 				<TableCell>NOMBRE</TableCell>
 			</TableRow>
 		</TableHead>
@@ -20,6 +21,7 @@ const ApplicationsBody = ({data = [], selected, handleSelect}) => (
 				return (
 				<TableRow key={n._id} hover selected={n._id === selected} onClick={handleSelect(n._id)}>
 					<TableCell component="th" >{dateFormat(n.createdAt,"dd/mm/yyyy")}</TableCell>
+					<TableCell>{n._id}</TableCell>
 					<TableCell>{n.name}</TableCell>
 				</TableRow>
 				);

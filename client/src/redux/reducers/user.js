@@ -11,7 +11,9 @@ const UserReducer = (state = defaultState, {type, payload}) => {
 		case USER_ACTIONS.LOGIN:
 			return {
 				...state,
-				statusService: STATUS_SERVICE.INPROGRESS,
+				statusLoginService: STATUS_SERVICE.INPROGRESS,
+				statusLogoutService: STATUS_SERVICE.INITIAL,
+				statusMeService: STATUS_SERVICE.INITIAL,
 				connections: [],
 				error: null
 			}
@@ -19,20 +21,20 @@ const UserReducer = (state = defaultState, {type, payload}) => {
 			AuthToken.setToken(payload)
 			return {
 				...state,
-				statusService: STATUS_SERVICE.SUCCESS,
+				statusLoginService: STATUS_SERVICE.SUCCESS,
 				connections: payload
 			}
 		case USER_ACTIONS.LOGIN_ERROR:
 			return {
 				...state,
-				statusService: STATUS_SERVICE.ERROR,
+				statusLoginService: STATUS_SERVICE.ERROR,
 				error: payload,
 				connections: [],
 			}
 		case USER_ACTIONS.LOGIN_RESET:
 			return {
 				...state,
-				statusService: STATUS_SERVICE.INITIAL
+				statusLoginService: STATUS_SERVICE.INITIAL
 			}
 		case USER_ACTIONS.ME:
 			return {
@@ -62,17 +64,19 @@ const UserReducer = (state = defaultState, {type, payload}) => {
 		case USER_ACTIONS.LOGOUT:
 			return {
 				...state,
-				statusService: STATUS_SERVICE.INPROGRESS
+				statusLogoutService: STATUS_SERVICE.INPROGRESS
 			}
 		case USER_ACTIONS.LOGOUT_OK:
+			AuthToken.setToken();
 			return {
 				...state,
-				statusService: STATUS_SERVICE.SUCCESS
+				statusLogoutService: STATUS_SERVICE.SUCCESS,
+				statusMeService: STATUS_SERVICE.INITIAL
 			}
 		case USER_ACTIONS.LOGOUT_ERROR:
 			return {
 				...state,
-				statusService: STATUS_SERVICE.ERROR
+				statusLogoutService: STATUS_SERVICE.ERROR
 			}
 		default:
 			return {
