@@ -15,6 +15,7 @@ const ConnectionsBody = ({data = [], selected, handleSelect}) => (
 				<TableCell>SERVER</TableCell>
 				<TableCell>USER</TableCell>
 				<TableCell>DATABASE</TableCell>
+				<TableCell>TOKEN</TableCell>
 			</TableRow>
 		</TableHead>
 		<TableBody>
@@ -25,7 +26,7 @@ const ConnectionsBody = ({data = [], selected, handleSelect}) => (
 					<TableCell>{n.server}</TableCell>
 					<TableCell>{n.user}</TableCell>
 					<TableCell>{n.database}</TableCell>
-
+					<TableCell>{n.token}</TableCell>
 				</TableRow>
 				);
 			})}

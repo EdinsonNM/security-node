@@ -15,6 +15,7 @@ const Connection = MongoDB.createModel('Connection','connections', {
 	password: String,
 	database: String,
 	active: {type: Boolean, default: true},
+	token: 'string',
 	createdAt: Date,
 	updatedAt: Date
 })

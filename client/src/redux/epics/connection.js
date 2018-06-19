@@ -42,11 +42,43 @@ class ConnectionEpic{
 				Observable.of(ConnectionAction.load(payload._app))
 			);
 		});
+	static update = (action$, store, deps) => action$
+		.ofType(CONNECTION_ACTIONS.UPDATE)
+		.switchMap(({ payload }) => {
+			const api = new ConnectionApi(action$, store, deps);
+			const request = api.put(payload)
+				.map((response) => ConnectionAction.updateOk(response.response))
+				.catch(error => Observable.of(ConnectionAction.updateError({
+					message: error.message,
+					status: error.status
+				})));
+			return Observable.concat(
+				request,
+				Observable.of(ConnectionAction.load(payload._app))
+			);
+		});
+	static delete = (action$, store, deps) => action$
+		.ofType(CONNECTION_ACTIONS.DELETE)
+		.switchMap(({ payload }) => {
+			const api = new ConnectionApi(action$, store, deps);
+			const request = api.delete(payload)
+				.map((response) => ConnectionAction.deleteOk())
+				.catch(error => Observable.of(ConnectionAction.deleteError({
+					message: error.message,
+					status: error.status
+				})));
+			return Observable.concat(
+				request,
+				Observable.of(ConnectionAction.load(payload._app))
+			);
+		});
 }
 
 export default function ConnectionEpics (action$, store, deps){
 	return Observable.merge(
 		ConnectionEpic.load(action$, store, deps),
 		ConnectionEpic.save(action$, store, deps),
+		ConnectionEpic.update(action$, store, deps),
+		ConnectionEpic.delete(action$, store, deps),
 	);
 } 

@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Chip from '@material-ui/core/Chip';
 
 const ConnectionForm = ({model, handleClose, handleSave, handleChange, title='Nueva Conexión'}) => {
 	return(
@@ -40,7 +41,7 @@ const ConnectionForm = ({model, handleClose, handleSave, handleChange, title='Nu
 					margin="dense"
 					id="password"
 					label="Contraseña"
-					type="text"
+					type="password"
 					fullWidth
 					onChange={handleChange('password')}
 					value={model.password}
@@ -55,6 +56,13 @@ const ConnectionForm = ({model, handleClose, handleSave, handleChange, title='Nu
 					onChange={handleChange('database')}
 					value={model.database}
 				/>
+				{
+					model._id && 
+					<DialogContentText>
+						Token:<br/>
+						<span style={{color: 'green'}}>{model.token}</span>
+					</DialogContentText>
+				}
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={handleClose} color="primary">

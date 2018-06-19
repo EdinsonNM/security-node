@@ -41,6 +41,36 @@ const ConnectionReducer = (state = defaultState, {type, payload}) => {
 				...state,
 				statusService: STATUS_SERVICE.ERROR
 			}
+		case CONNECTION_ACTIONS.UPDATE:
+			return {
+				...state,
+				statusService: STATUS_SERVICE.INPROGRESS
+			}
+		case CONNECTION_ACTIONS.UPDATE_OK:
+			return {
+				...state,
+				statusService: STATUS_SERVICE.SUCCESS
+			}
+		case CONNECTION_ACTIONS.UPDATE_ERROR:
+			return {
+				...state,
+				statusService: STATUS_SERVICE.ERROR
+			}
+		case CONNECTION_ACTIONS.DELETE:
+			return {
+				...state,
+				statusService: STATUS_SERVICE.INPROGRESS
+			}
+		case CONNECTION_ACTIONS.DELETE_OK:
+			return {
+				...state,
+				statusService: STATUS_SERVICE.SUCCESS
+			}
+		case CONNECTION_ACTIONS.DELETE_ERROR:
+			return {
+				...state,
+				statusService: STATUS_SERVICE.ERROR
+			}
 		default:
 			return {
 				...state

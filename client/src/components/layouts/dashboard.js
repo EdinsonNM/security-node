@@ -45,7 +45,6 @@ class Dashboard extends Component {
 			<div className="Dashboard-container">
 				<Applications applicationSelected={this.state.applicationSelected} handleApplicationSelect={this.handleApplicationSelect}/>
 				<div className="Dashboard-detail">
-					<Token idApplication={this.state.applicationSelected} />
 					<Connections idApplication={this.state.applicationSelected}/>
 					<Users idApplication={this.state.applicationSelected}/>
 				</div>
