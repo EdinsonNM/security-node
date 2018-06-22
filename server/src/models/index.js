@@ -28,9 +28,9 @@ const Token = MongoDB.createModel('Token','tokens', {
 
 })
 const UserLog = MongoDB.createModel('UserLog','userlogs', {
-	_app: {type: Schema.Types.ObjectId, ref: 'Application'},
-	_token:{type: Schema.Types.ObjectId, ref: 'Token'},
-	user: 'string',
+	_cnn:{type: Schema.Types.ObjectId, ref: 'Connection'},
+	user: String,
+	ip: String,
 	createdAt: Date,
 	updatedAt: Date
 

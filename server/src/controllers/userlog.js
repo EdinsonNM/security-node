@@ -1,17 +1,18 @@
-const { UserLog, Token } = require('../models');
+const { UserLog, Connection } = require('../models');
 class UserlogController{
 	static getAll(req, res){
-		UserLog.find({_app: req.params.app})
+		UserLog.find({_cnn: req.params.cnn})
 		.then((response)=> {
-			res.json(response);
+			res.status(200).json(response);
 		});
 	}
 	static async post(req, res){
-		const token = await Token.findOne({_app: req.params.app, token: req.params.token});
-		if(token){
+		const cnn = await Connection.findOne({token: req.params.token});
+		if(cnn){
 			const user = new UserLog({
-				_app: req.params.app,
-				user: req.params.user
+				_cnn: cnn._id,
+				user: req.body.user.app,
+				ip: req.body.ip
 			});
 			user.save((error, data) => {
 				if(error){
@@ -20,7 +21,7 @@ class UserlogController{
 				res.status(200).json(data);
 			});
 		}else {
-			res.send(401);
+			res.status(401).json({});
 		}
 	}
 }

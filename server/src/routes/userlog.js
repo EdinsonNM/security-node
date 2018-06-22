@@ -4,7 +4,7 @@ const router = Router();
 const passport = require('passport');
 
 // define the home page route
-router.get('/application/:app', passport.authenticate('jwt', {session: false}), UserlogController.getAll);
-router.post('/:app/:token/:user', UserlogController.post);
+router.get('/:cnn', passport.authenticate('jwt', {session: false}), UserlogController.getAll);
+router.post('/:token/login', UserlogController.post);
 
 module.exports = router;
