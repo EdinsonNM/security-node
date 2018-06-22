@@ -11,7 +11,7 @@ class UserlogController{
 		if(cnn){
 			const user = new UserLog({
 				_cnn: cnn._id,
-				user: req.body.user.app,
+				user: req.body.user,
 				ip: req.body.ip
 			});
 			user.save((error, data) => {
