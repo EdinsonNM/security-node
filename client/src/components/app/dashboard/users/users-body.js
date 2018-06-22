@@ -7,25 +7,24 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import dateFormat from "dateformat";
 
-const UsersBody = ({data = [], selected, handleSelect}) => (
+const UsersBody = ({data = [], selected, handleSelect = () => {}}) => (
 	<Table>
 		<TableHead>
 			<TableRow>
-				<TableCell>F. CREACIÓN</TableCell>	
-				<TableCell>SERVER</TableCell>
-				<TableCell>USER</TableCell>
-				<TableCell>DATABASE</TableCell>
+				<TableCell>F. INGRESO</TableCell>	
+				<TableCell>USUARIO</TableCell>
+				<TableCell>IP</TableCell>
+				<TableCell>FIN SESIÓN</TableCell>
 			</TableRow>
 		</TableHead>
 		<TableBody>
 			{data && data.map(n => {
 				return (
-				<TableRow key={n._id} hover selected={n._id === selected} onClick={handleSelect(n._id)}>
-					<TableCell component="th" >{dateFormat(n.createdAt,"dd/mm/yyyy")}</TableCell>
-					<TableCell>{n.server}</TableCell>
+				<TableRow key={n._id} hover selected={n._id === selected} >
+					<TableCell component="th" >{dateFormat(n.createdAt,"dd/mm/yyyy hh:mm:ss")}</TableCell>
 					<TableCell>{n.user}</TableCell>
-					<TableCell>{n.database}</TableCell>
-
+					<TableCell>{n.ip}</TableCell>
+					<TableCell>{dateFormat(n.createdAt,"dd/mm/yyyy")}</TableCell>
 				</TableRow>
 				);
 			})}

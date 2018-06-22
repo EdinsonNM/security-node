@@ -19,7 +19,8 @@ import { Route, Redirect } from 'react-router'
 
 class Dashboard extends Component {
 	state={
-		applicationSelected: -1
+		applicationSelected: -1,
+		connectionSelected: -1
 	}
 	constructor(props){
 		super();
@@ -30,6 +31,10 @@ class Dashboard extends Component {
 	}
 	handleApplicationSelect = (id) => () => {
 		this.setState({applicationSelected: id});
+	}
+	handleConnectionnSelect = (id) => {
+		console.log(id);
+		this.setState({connectionSelected: id});
 	}
 	render() {
 		if(this.props.status === STATUS_SERVICE.ERROR){
@@ -45,8 +50,8 @@ class Dashboard extends Component {
 			<div className="Dashboard-container">
 				<Applications applicationSelected={this.state.applicationSelected} handleApplicationSelect={this.handleApplicationSelect}/>
 				<div className="Dashboard-detail">
-					<Connections idApplication={this.state.applicationSelected}/>
-					<Users idApplication={this.state.applicationSelected}/>
+					<Connections idApplication={this.state.applicationSelected} handleConnectionnSelect={this.handleConnectionnSelect} />
+					<Users idConnection={this.state.connectionSelected} />
 				</div>
 				
 			</div>

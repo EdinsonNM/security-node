@@ -1,9 +1,9 @@
 import USERLOG_ACTIONS from '../../constants/actions/userlog';
 class UserLogAction{
-	static load = (app) => ({
+	static load = (cnn) => ({
 		type: USERLOG_ACTIONS.LOAD,
 		payload: {
-			app
+			cnn
 		}
 	})
 	static loadOk = payload => ({

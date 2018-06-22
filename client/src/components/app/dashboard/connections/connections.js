@@ -37,8 +37,9 @@ class Connections extends React.Component{
 		this.toggleForm();
 	}
 	handleSelect = (selected) => () => {
-		//alert(selected)
-		this.setState({ selected, model: this.props.connections.find((c) => c._id === selected)});
+		const model = this.props.connections.find((c) => c._id === selected);
+		this.setState({ selected, model});
+		this.props.handleConnectionnSelect(model._id);
 	}
 
 	handleEdit = () => {

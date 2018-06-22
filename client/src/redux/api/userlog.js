@@ -7,8 +7,8 @@ class UserLogApi{
         this.deps = deps;
     }
 
-    getAll = ({app}) => this.deps.ajax
-        .getJSON(`${SERVER_URL}/userlog/application/${app}`, {}, HeaderRequest.getRequestHeader())
+    getAll = ({cnn}) => this.deps.ajax
+        .getJSON(`${SERVER_URL}/userlog/${cnn}`, HeaderRequest.getRequestHeader())
 
 }
 export default UserLogApi;
