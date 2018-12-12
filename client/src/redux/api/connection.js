@@ -1,5 +1,5 @@
 import HeaderRequest from '../../lib/header-request';
-const SERVER_URL = 'api'
+const SERVER_URL = process.env.REACT_APP_SERVER_URL
 class ConnectionApi{
 	constructor(action$, store, deps) {
         this.action$ = action$;

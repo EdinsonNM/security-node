@@ -1,5 +1,5 @@
 import HeaderRequest from '../../lib/header-request';
-const SERVER_URL = 'api'
+const SERVER_URL = process.env.REACT_APP_SERVER_URL
 class UserApi{
     static isAuthenticate = false;
     constructor(action$, store, deps) {
