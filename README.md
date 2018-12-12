@@ -65,7 +65,25 @@ npm install pm2 -g
 ```
 Para mayor información revisar la documentación de `pm2` en: [http://pm2.keymetrics.io/](http://pm2.keymetrics.io/)
 
-### Instalando la aplicación como servicio
+## Configuración inicial
+Abrir la consola y acceder hasta la carpeta `/server` del proyecto y ejecutar el siguiente comando para crear el archivo .env
+```
+touch .env
+
+```
+Tambien puede realizar la acción dirigiendose a la carpeta `/server` a traves del explorador y creando manualmente el archivo con el nombre `.env`
+
+A continuación, debera agregar las siguientes variables para configurar adecuadamente su entorno:
+
+El archivo `.env` debera contener las siguientes variable:
+
+- `NODE_ENV`, cuyos valores pueden ser `development | production`.
+- `PORT`, es el puerto sobre el cual se desea iniciar el servidor de security-node.
+- `MONGO_HOST`, es la cadena de conexión a la base de datos MongoDb. Ejemplo `miusuario:miclave@localhost:27017`.
+- `MONGO_DB`, es el nombre de nuestra de base de datos.
+- `SECURITY_TOKEN`, es un valor privado que indica la clave secreta para la generación de tokens.
+
+## Instalando la aplicación como servicio
 
 A continuación el paso a realizar es dirigirse hacia la carpeta `/server`del proyecto y ejecutar los siguientes comandos
 
