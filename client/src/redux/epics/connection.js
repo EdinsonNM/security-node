@@ -1,11 +1,8 @@
-import { Observable } from 'rxjs';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/of';
+import { Observable } from 'rxjs-compat';
+import { switchMap, catchError, map } from 'rxjs/operators';
+import { ofType } from 'redux-observable';
+import { of } from 'rxjs';
 
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/concat';
 import TokenAction from '../actions/token';
 import TokenApi from '../api/token';
 import CONNECTION_ACTIONS from '../../constants/actions/connection';
@@ -13,9 +10,9 @@ import ConnectionApi from '../api/connection';
 import ConnectionAction from '../actions/connection';
 
 class ConnectionEpic{
-	static load = (action$, store, deps) => action$
-		.ofType(CONNECTION_ACTIONS.LOAD)
-		.switchMap(({ payload }) => {
+	static load = (action$, store, deps) => action$.pipe(
+		ofType(CONNECTION_ACTIONS.LOAD),
+		switchMap(({ payload }) => {
 			const api = new ConnectionApi(action$, store, deps);
 			const request = api.getAll(payload)
 				.map(ConnectionAction.loadOk)
@@ -26,10 +23,11 @@ class ConnectionEpic{
 			return Observable.concat(
 				request
 			);
-		});
-	static save = (action$, store, deps) => action$
-		.ofType(CONNECTION_ACTIONS.SAVE)
-		.switchMap(({ payload }) => {
+		})
+	)
+	static save = (action$, store, deps) => action$.pipe(
+		ofType(CONNECTION_ACTIONS.SAVE),
+		switchMap(({ payload }) => {
 			const api = new ConnectionApi(action$, store, deps);
 			const request = api.post(payload)
 				.map((response) => ConnectionAction.saveOk(response.response))
@@ -41,10 +39,11 @@ class ConnectionEpic{
 				request,
 				Observable.of(ConnectionAction.load(payload._app))
 			);
-		});
-	static update = (action$, store, deps) => action$
-		.ofType(CONNECTION_ACTIONS.UPDATE)
-		.switchMap(({ payload }) => {
+		})
+	)
+	static update = (action$, store, deps) => action$.pipe(
+		ofType(CONNECTION_ACTIONS.UPDATE),
+		switchMap(({ payload }) => {
 			const api = new ConnectionApi(action$, store, deps);
 			const request = api.put(payload)
 				.map((response) => ConnectionAction.updateOk(response.response))
@@ -56,10 +55,11 @@ class ConnectionEpic{
 				request,
 				Observable.of(ConnectionAction.load(payload._app))
 			);
-		});
-	static delete = (action$, store, deps) => action$
-		.ofType(CONNECTION_ACTIONS.DELETE)
-		.switchMap(({ payload }) => {
+		})
+	)
+	static delete = (action$, store, deps) => action$.pipe(
+		ofType(CONNECTION_ACTIONS.DELETE),
+		switchMap(({ payload }) => {
 			const api = new ConnectionApi(action$, store, deps);
 			const request = api.delete(payload)
 				.map((response) => ConnectionAction.deleteOk())
@@ -71,7 +71,8 @@ class ConnectionEpic{
 				request,
 				Observable.of(ConnectionAction.load(payload._app))
 			);
-		});
+		})
+	)
 }
 
 export default function ConnectionEpics (action$, store, deps){

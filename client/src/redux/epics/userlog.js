@@ -1,20 +1,16 @@
-import { Observable } from 'rxjs';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/of';
-
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/concat';
+import { Observable } from 'rxjs-compat';
+import { switchMap, catchError, map } from 'rxjs/operators';
+import { ofType } from 'redux-observable';
+import { of } from 'rxjs';
 import ConnectionAction from '../actions/connection';
 import USERLOG_ACTIONS from '../../constants/actions/userlog'
 import UserLogApi from '../api/userlog'
 import UserLogAction from '../actions/userlog'
 
 class UserLogEpic{
-	static load = (action$, store, deps) => action$
-		.ofType(USERLOG_ACTIONS.LOAD)
-		.switchMap(({ payload }) => {
+	static load = (action$, store, deps) => action$.pipe(
+		ofType(USERLOG_ACTIONS.LOAD),
+		switchMap(({ payload }) => {
 			const api = new UserLogApi(action$, store, deps);
 			const request = api.getAll(payload)
 				.map(UserLogAction.loadOk)
@@ -25,7 +21,8 @@ class UserLogEpic{
 			return Observable.concat(
 				request
 			);
-		});
+		})
+	)
 
 }
 

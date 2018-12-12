@@ -1,6 +1,9 @@
 import APPLICATION_ACTIONS from '../../constants/actions/application';
 import ApplicationAction from '../actions/application';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs-compat';
+import { switchMap, catchError, map } from 'rxjs/operators';
+import { ofType } from 'redux-observable';
+import { of } from 'rxjs';
 import ApplicationApi from '../api/application';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map'
@@ -11,9 +14,9 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/concat';
 
 class ApplicationEpic{
-	static load = (action$, store, deps) => action$
-		.ofType(APPLICATION_ACTIONS.LOAD)
-		.switchMap(({ payload }) => {
+	static load = (action$, store, deps) => action$.pipe(
+		ofType(APPLICATION_ACTIONS.LOAD),
+		switchMap(({ payload }) => {
 			const api = new ApplicationApi(action$, store, deps);
 			const request = api.getAll(payload)
 				.map(ApplicationAction.loadApplicationsOk)
@@ -24,10 +27,11 @@ class ApplicationEpic{
 			return Observable.concat(
 				request
 			);
-		});
-	static save = (action$, store, deps) => action$
-		.ofType(APPLICATION_ACTIONS.SAVE)
-		.switchMap(({ payload }) => {
+		})
+	)
+	static save = (action$, store, deps) => action$.pipe(
+		ofType(APPLICATION_ACTIONS.SAVE),
+		switchMap(({ payload }) => {
 			const api = new ApplicationApi(action$, store, deps);
 			const request = api.post(payload)
 				.map(ApplicationAction.saveApplicationOk)
@@ -39,7 +43,8 @@ class ApplicationEpic{
 				request,
 				Observable.of(ApplicationAction.loadApplications())
 			);
-		});
+		})
+	)
 }
 
 export default function ApplicationEpics (action$, store, deps){

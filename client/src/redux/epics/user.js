@@ -1,14 +1,17 @@
 import USER_ACTIONS from '../../constants/actions/user'
 import UserAction from '../actions/user'
 import UserApi from '../api/user'
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs-compat';
+import { switchMap, catchError, map } from 'rxjs/operators';
+import { ofType } from 'redux-observable';
+import { of } from 'rxjs';
 import AuthToken from '../../lib/auth-token';
 import 'rxjs/add/operator/mergeMap'
 
 class UserEpic{
-	static login = (action$, store, deps) => action$
-		.ofType(USER_ACTIONS.LOGIN)
-		.switchMap(({ payload }) => {
+	static login = (action$, store, deps) => action$.pipe(
+		ofType(USER_ACTIONS.LOGIN),
+		switchMap(({ payload }) => {
 			const api = new UserApi(action$, store, deps);
 			const request = api.login(payload)
 				.map(response =>UserAction.loginOk(response.response.token))
@@ -19,10 +22,11 @@ class UserEpic{
 			return Observable.concat(
 				request
 			);
-		});
-	static logout = (action$, store, deps) => action$
-		.ofType(USER_ACTIONS.LOGOUT)
-		.switchMap(({ payload }) => {
+		})
+	)
+	static logout = (action$, store, deps) => action$.pipe(
+		ofType(USER_ACTIONS.LOGOUT),
+		switchMap(({ payload }) => {
 			const api = new UserApi(action$, store, deps);
 			const request = api.logout()
 				.mergeMap(response => Observable.concat(
@@ -36,10 +40,11 @@ class UserEpic{
 			return Observable.concat(
 				request
 			);
-		});
-	static me = (action$, store, deps) => action$
-		.ofType(USER_ACTIONS.ME)
-		.switchMap(() => {
+		})
+	)
+	static me = (action$, store, deps) => action$.pipe(
+		ofType(USER_ACTIONS.ME),
+		switchMap(() => {
 			const api = new UserApi(action$, store, deps);
 			const request = api.me()
 				.map(response =>UserAction.meOk(response.response))
@@ -50,7 +55,8 @@ class UserEpic{
 			return Observable.concat(
 				request
 			);
-		});
+		})
+	)
 }
 
 
