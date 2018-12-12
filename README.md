@@ -1,125 +1,80 @@
 
-Node + Create React App + Docker Compose
+Proyecto Security-Node
 ========================================
 
-A project that runs a Node server and a create-react-app app via two separate containers, using Docker Compose.
+Este proyecto es una aplicación de generación de tokens para otras aplicaciones.
+
+# Requerimientos iniciales
+- Instalar Git
+- Instalar NodeJS
+- Instalar y configurar MongoDB
+- Contar con un servidor web configurado(Apache, Nginx)
 
 
-## Development
+# Configuración Cliente (Interfaz de Usuario)
+
+## Configuración Inicial
+Abrir la consola y acceder hasta la carpeta `/client` del proyecto y ejecutar el siguiente comando para crear el archivo .env
+```
+touch .env
 
 ```
-docker-compose up
+Tambien puede realizar la acción dirigiendose a la carpeta `/client` a traves del explorador y creando manualmente el archivo con el nombre `.env`
+
+A continuación, debera copiar el contenido del archivo `/client/.env.example` a su archivo `.env`
+
+El archivo `.env` debera contener las siguientes variable:
+
+- `REACT_APP_SERVER_URL`, indica la dirección del servidor de security-node
+- `PORT`, indica el puerto sobre el cual se quiere inicializar la aplicación cliente cuando esta en modo desarrollo
+- `PUBLIC_URL`, indica la ruta base de los archivos estáticos
+
+## Iniciando la aplicación
+
+### Modo Desarrollo
+Lo primero a realizar para iniciar la aplicación es instalar las dependencias necesarias ejecutando el siguiente comando sobre el directo `/client`:
 ```
-
-For development, the `server/` and `client/` directories have their own docker containers, which are configured via the `docker-compose.yml` file.
-
-The client server is spun up at `localhost:3000` and it proxies internally to the server using the linked name as `server:8080`.
-
-The local directories are mounted into the containers, so changes will reflect immediately. However, changes to package.json will likely need to a rebuild: `docker-compose down && docker-compose build && docker-compose up`.
-
-### Notes
-
-#### Adding new scss files
-
-The `node-sass` watch feature does not notice new files. In order to get new files working, restart the client container:
-
-```
-docker-compose restart client
-```
-
-#### Installing npm dependencies
-
-All changes to `node_modules` should happen *inside* the containers. Install any new dependencies by inside the container. You can do this via `docker-compose run`, but it’s easier to just upadte a running container and avoid having to rebuild everything:
+npm install
 
 ```
-docker-compose exec client
+y a continuación ejecutar el comando:
+```
+npm start
+
 ```
 
-Then inside:
+### Modo Producción
+Para ejecutar elproyecto en modo producción se deberá ejecutar el siguiente comando:
+```
+sh build.sh
+```
+el cual se encargará de compilar el proyecto y copiarlo al folder correspondiente. El archivo build.sh contiene lo siguiente:
+```
+npm install
+npm run build
+cp -a ./build/. /var/www/html/security-node
+```
+Donde `/var/www/html/security-node` es la ubicación del directorio donde deseamos generar los archivos compilados del proyecto. Esta ubicación puede variar dependiendo de la ruta de su servidor web.
+
+# Configuración Servidor (Servidor Web de servicios)
+
+## Requerimientos iniciales
+Se recomienda instalar pm2 para ejecutar las aplicaciones como servicios, el cual puede ser instalado con el siguient comando:
+```
+npm install pm2 -g
+```
+Para mayor información revisar la documentación de `pm2` en: [http://pm2.keymetrics.io/](http://pm2.keymetrics.io/)
+
+### Instalando la aplicación como servicio
+
+A continuación el paso a realizar es dirigirse hacia la carpeta `/server`del proyecto y ejecutar los siguientes comandos
 
 ```
-npm install --save <new_dependency>
-```
-
-## Production
-
-```
-docker-compose -f docker-compose.prod.yml up
-```
-
-For production, this uses the Dockerfile at the root of the repo. It creates a static build of the client React app and runs Express inside server, which handles both the API and serving of React files.
-
-As a result, different code is executing to serve the React files, but all of the API calls should remain the same. The difference between development and production isn’t ideal, but it does offer the simplicity of having the entire app run in one server on one machine.
-
-This is one of multiple ways a Node + React app could be setup, as suggested [here](https://daveceddia.com/create-react-app-express-production/):
-
-*   __Keep them together__ - have Express serve both the API and React files
-*   __Split them apart__ - have Express API on one machine and the React files on another (e.g., on S3 and use CORS to access the API)
-*   __Put the API behind a proxy__ - use something like NGINX to proxy the Express API server and React static files separately
-
-This project uses the “keep them together” approach. For better performance, you can set up a proxy (like Cloudflare) in between your server and the Internet to cache the static files. Or with some extra work you can fashion it to do either of the other two options.
-
-
-## Notes
-
-### Using docker compose
-
-I have `comp` aliased to `docker-compose` on my computer.
-
-Start via:
+npm install
+pm2 start src/index.js --name security-node
+pm2 save
+pm2 startup
 
 ```
-comp up
 
-# or detached
-comp up -d
-```
-
-Run a container of the server image via:
-
-```
-comp run server /bin/bash
-```
-
-Check status:
-
-```
-comp ps
-```
-
-Stop:
-
-```
-comp down
-```
-
-Run the production image:
-
-```
-comp -f docker-compose.prod.yml up
-```
-
-NOTE: if any dependencies change in package.json files, you probably will need to rebuild the container for the changes to appear, e.g.,
-
-```
-comp down
-comp build
-comp up
-```
-
-
-### Setup references
-
-References for setting up a Node project with Docker and docker-compose:
-
-*   https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
-*   https://blog.codeship.com/using-docker-compose-for-nodejs-development/
-*   http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html
-
-Express + React:
-
-*   https://daveceddia.com/create-react-app-express-production/
-*   http://ericsowell.com/blog/2017/5/16/create-react-app-and-express
-*   https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0
-*   https://medium.freecodecamp.org/how-to-host-a-website-on-s3-without-getting-lost-in-the-sea-e2b82aa6cd38
 
