@@ -16,11 +16,14 @@ import { bindActionCreators } from 'redux';
 import { STATUS_SERVICE } from '../../constants/services';
 import AuthToken from '../../lib/auth-token';
 import { Route, Redirect } from 'react-router'
+import UserForm from '../app/dashboard/user/user-form';
 
 class Dashboard extends Component {
 	state={
 		applicationSelected: -1,
-		connectionSelected: -1
+		connectionSelected: -1,
+		openUserForm: false,
+		model:{}
 	}
 	constructor(props){
 		super();
@@ -36,6 +39,19 @@ class Dashboard extends Component {
 		console.log(id);
 		this.setState({connectionSelected: id});
 	}
+	handleOpenUserForm = () => {
+		this.setState({openUserForm: true});
+	}
+	handleCloseUserForm = () => {
+		this.setState({openUserForm: false});
+	}
+	handleChangeForm = (name) => (e) => {
+		this.setState({model: {...this.state.model, [name]: e.target.value}})
+	}
+	handleSave = () =>{
+		this.props.save(this.state.model);
+		this.setState({openUserForm: false});
+	}
 	render() {
 		if(this.props.status === STATUS_SERVICE.ERROR){
 			AuthToken.setToken();
@@ -46,14 +62,14 @@ class Dashboard extends Component {
 		}
 		return (
 			<div className="Dashboard">
-			<HeaderApp {...this.props} />
+			<HeaderApp {...this.props} handleOpenUserForm={this.handleOpenUserForm} />
 			<div className="Dashboard-container">
 				<Applications applicationSelected={this.state.applicationSelected} handleApplicationSelect={this.handleApplicationSelect}/>
 				<div className="Dashboard-detail">
 					<Connections idApplication={this.state.applicationSelected} handleConnectionnSelect={this.handleConnectionnSelect} />
 					<Users idConnection={this.state.connectionSelected} />
 				</div>
-				
+				{this.state.openUserForm && <UserForm model={this.state.model} handleClose={this.handleCloseUserForm} handleChange={this.handleChangeForm} handleSave={this.handleSave}/>}
 			</div>
 			</div>
 		);
@@ -66,6 +82,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
 	me: UserAction.me,
+	save: UserAction.save,
 	logout: UserAction.logout,
 	meReset: UserAction.meReset
 }, dispatch)

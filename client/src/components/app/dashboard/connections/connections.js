@@ -13,10 +13,10 @@ class Connections extends React.Component{
 		model:{},
 		selected: -1
 	}
-	componentDidUpdate(nextProps){
+	componentWillReceiveProps(nextProps){
 		if(nextProps.idApplication!== -1 && nextProps.idApplication !== this.props.idApplication){
-			this.setState({ model:{ ...this.state.model, _app: this.props.idApplication }});
-			this.props.load(this.props.idApplication)
+			this.setState({ model:{ ...this.state.model, _app: nextProps.idApplication }});
+			this.props.load(nextProps.idApplication)
 		}
 	}
 	toggleForm = (model = {}, title = '') => {

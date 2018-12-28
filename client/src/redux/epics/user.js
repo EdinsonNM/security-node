@@ -57,6 +57,21 @@ class UserEpic{
 			);
 		})
 	)
+	static save = (action$, store, deps) => action$.pipe(
+		ofType(USER_ACTIONS.SAVE),
+		switchMap(({payload}) => {
+			const api = new UserApi(action$, store, deps);
+			const request = api.post(payload)
+				.map(response =>UserAction.saveOk(response.response))
+				.catch(error => Observable.of(UserAction.saveError({
+					message: error.message,
+					status: error.status
+				})));
+			return Observable.concat(
+				request
+			);
+		})
+	)
 }
 
 
@@ -65,5 +80,6 @@ export default function UserEpics (action$, store, deps){
 		UserEpic.login(action$, store, deps),
 		UserEpic.me(action$, store, deps),
 		UserEpic.logout(action$, store, deps),
+		UserEpic.save(action$, store, deps),
 	);
 } 

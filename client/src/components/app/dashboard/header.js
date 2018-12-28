@@ -10,7 +10,8 @@ const HeaderApp = (props) => (
 		<Typography variant="title" color="inherit" style={{flex: 1}}>
 			Dashboard Security
 		</Typography>
-		<Button color="inherit" onClick={props.logout}><span className="material-icons">account_circle</span> Salir</Button>
+		<Button color="inherit" onClick={props.logout}><span className="material-icons">account_circle</span>&nbsp;{props.user.username}</Button>
+		<Button color="inherit" onClick={props.handleOpenUserForm}><span className="material-icons">add</span></Button>
 		</Toolbar>
 	</AppBar>
 );

@@ -44,5 +44,20 @@ class UserAction{
 		type: USER_ACTIONS.LOGOUT_ERROR,
 		payload
 	})
+	static save = ({username, password}) => ({
+		type: USER_ACTIONS.SAVE,
+		payload: {
+			username,
+			password
+		}
+	})
+	static saveOk = payload => ({
+		type: USER_ACTIONS.SAVE_OK,
+		payload
+	})
+	static saveError = payload => ({
+		type: USER_ACTIONS.SAVE_ERROR,
+		payload
+	})
 }
 export default UserAction;

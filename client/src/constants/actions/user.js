@@ -12,5 +12,8 @@ const USER_ACTIONS = {
     LOGOUT: `${moduleName}_LOGOUT`,
     LOGOUT_OK: `${moduleName}_LOGOUT_OK`,
     LOGOUT_ERROR: `${moduleName}_LOGOUT_ERROR`,
+    SAVE: `${moduleName}_SAVE`,
+    SAVE_OK: `${moduleName}_SAVE_OK`,
+    SAVE_ERROR: `${moduleName}_SAVE_ERROR`,
 };
 export default USER_ACTIONS;

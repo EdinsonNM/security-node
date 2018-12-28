@@ -37,6 +37,15 @@ class UserController {
 		});
 	}
 
+	static post(req, res){
+		var admin = new User(req.body);	
+		admin.save(function(err) {
+			if (err) throw err;
+			console.log('User saved successfully');
+			res.json({ success: true });
+		});
+	}
+
 	static logout(req, res){
 		req.logout();
 		res.json({success: true});

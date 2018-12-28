@@ -16,5 +16,8 @@ class UserApi{
 
     logout = (payload) => this.deps.ajax
         .post(`${SERVER_URL}/user/logout`,{},  HeaderRequest.getRequestHeader())
+    
+    post = (user) => this.deps.ajax
+        .post(`${SERVER_URL}/user`, user,  HeaderRequest.getRequestHeader())
 }
 export default UserApi;
